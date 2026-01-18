@@ -389,10 +389,26 @@ document.addEventListener("keydown", (e) => {
 
   if (e.key === "Enter") { e.preventDefault(); ok(); }
   if (e.key === "Escape") { e.preventDefault(); clearDisplay(); }
-  if (e.key === "Backspace" && document.activeElement !== ui.display) {
+  if (e.key === "Backspace") {
+  const el = document.activeElement;
+
+  // Ako korisnik tipka u form input/textarea ili contenteditable, pusti browser da radi normalno
+  const isTypingField =
+    el && (
+      el.tagName === "INPUT" ||
+      el.tagName === "TEXTAREA" ||
+      el.isContentEditable
+    );
+
+  if (isTypingField) return;
+
+  // Inače (npr. fokus na body), Backspace neka briše kalkulator display
+  if (document.activeElement !== ui.display) {
     e.preventDefault();
     backspace();
   }
+}
+
 });
 
 /* ---------- menu ---------- */
