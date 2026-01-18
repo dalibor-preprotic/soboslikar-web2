@@ -185,7 +185,7 @@ button.top{ background-color: var(--btn2); }
 button.op{ background-color: var(--op); }
 button.eq{ background-color: var(--eq); grid-row: span 2; height: 128px; }
 
-button.zero{ grid-column: span 3; }
+button.zero{ grid-column: span 2; }
 
 .hint{ margin:10px 2px 0; font-size:13px; }
 
@@ -329,3 +329,4 @@ button.zero{ grid-column: span 3; }
   .formGrid{ grid-template-columns: 1fr; }
   .eqWide{ grid-column: span 1; }
 }
+
