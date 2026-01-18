@@ -1,0 +1,331 @@
+:root{
+  --bg:#eaf3ff;
+  --card:rgba(255,255,255,0.72);
+  --border:rgba(11,42,74,0.15);
+
+  --btn:#c6e0ff;
+  --btn2:rgb(247,240,255);
+  --eq:#40bfff;
+  --op:#40ffff;
+
+  --text:#0b2a4a;
+}
+
+*{ box-sizing:border-box; }
+body{
+  margin:0;
+  font-family: Arial, sans-serif;
+  min-height:100vh;
+  background: var(--bg);
+  display:flex;
+  justify-content:center;
+  padding:12px;
+  color:#123;
+}
+
+.app{ width:min(720px, 100%); }
+
+.header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:10px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.logo{
+  width:54px;
+  height:54px;
+  border-radius:12px;
+  background:#fff;
+  border:2px solid var(--border);
+  padding:6px;
+
+  /* tranzicija (stil s predavanja) */
+  transition: transform 0.3s, opacity 0.3s;
+}
+.logo:hover{
+  transform: scale(1.05);
+  opacity: 0.95;
+}
+
+.title{ font-weight:900; color:var(--text); }
+.subtitle{ font-size:12px; opacity:.8; }
+
+.topbtn{
+  border: 1px solid #003d5c;
+  border-radius: 20px;
+  padding:10px 14px;
+  font-size:16px;
+  cursor:pointer;
+  background: var(--btn2);
+
+  transition: background-color 0.3s, transform 0.2s;
+}
+.topbtn:hover{
+  background-color: var(--btn);
+  transform: scale(1.03);
+}
+.topbtn:active{ transform: scale(0.98); }
+
+.card{
+  background: var(--card);
+  border:2px solid var(--border);
+  border-radius:14px;
+  padding:14px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+}
+
+.hidden{ display:none; }
+.muted{ opacity:.78; }
+.small{ font-size:12px; }
+
+h2{ margin:0 0 8px; color:var(--text); }
+h3{ margin:0 0 10px; color:var(--text); }
+
+.menuGrid{
+  display:grid;
+  grid-template-columns: 1fr;
+  gap:10px;
+  margin-top:10px;
+}
+.menuBtn{
+  border: 1px solid #003d5c;
+  border-radius: 20px;
+  padding:16px 14px;
+  font-size:18px;
+  font-weight:900;
+  cursor:pointer;
+  background: var(--btn);
+
+  transition: background-color 0.3s, transform 0.2s;
+}
+.menuBtn:hover{ background-color: var(--eq); transform: scale(1.02); }
+.menuBtn:active{ transform: scale(0.98); }
+
+.note{ margin-top:10px; font-size:13px; }
+
+.calcTop{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.prompt{
+  font-size:16px;
+  font-weight:800;
+  line-height:1.25;
+  padding:6px 0 10px;
+  min-height:48px;
+}
+
+.display{
+  width:100%;
+  height:70px;
+  font-size:32px;
+  font-weight:900;
+  text-align:right;
+  margin: 6px 0 10px;
+  padding: 12px;
+  background-color: blanchedalmond;
+  border: 1px solid blue;
+  border-radius:12px;
+}
+
+.stopRow{
+  display:grid;
+  grid-template-columns: 1fr;
+  gap:8px;
+  margin-bottom:10px;
+}
+.stopBtn{
+  border: 1px solid #003d5c;
+  border-radius: 20px;
+  height: 54px;
+  font-size: 16px;
+  font-weight:900;
+  cursor: pointer;
+  background: rgb(255, 235, 190);
+
+  transition: background-color 0.3s, transform 0.2s;
+}
+.stopBtn:hover{ background-color: rgb(255, 210, 130); transform: scale(1.01); }
+.stopBtn:active{ transform: scale(0.98); }
+
+.pad{
+  display:grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap:8px;
+}
+
+button{
+  border: 1px solid #003d5c;
+  border-radius: 20px;
+  height: 60px;
+  font-size: 20px;
+  font-weight:900;
+  cursor: pointer;
+  background: var(--btn);
+
+  /* tranzicija kao na predavanju */
+  transition: background-color 0.3s, transform 0.2s;
+}
+button:hover{ transform: scale(1.03); }
+button:active{ transform: scale(0.98); }
+
+button.top{ background-color: var(--btn2); }
+button.op{ background-color: var(--op); }
+button.eq{ background-color: var(--eq); grid-row: span 2; height: 128px; }
+
+button.zero{ grid-column: span 3; }
+
+.hint{ margin:10px 2px 0; font-size:13px; }
+
+.footer{ margin-top:10px; font-size:12px; text-align:center; }
+
+.modeBox{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px;
+  border:2px solid var(--border);
+  border-radius:14px;
+  background: rgba(255,255,255,0.55);
+}
+.modeLabel{ font-weight:900; color:var(--text); }
+
+.switch{
+  position:relative;
+  display:inline-block;
+  width:56px;
+  height:32px;
+}
+.switch input{ display:none; }
+.slider{
+  position:absolute;
+  cursor:pointer;
+  inset:0;
+  background:#cfd8e6;
+  border-radius:999px;
+  transition: background-color 0.3s;
+}
+.slider:before{
+  content:"";
+  position:absolute;
+  height:24px; width:24px;
+  left:4px; top:4px;
+  background:white;
+  border-radius:50%;
+  transition: transform 0.2s;
+}
+.switch input:checked + .slider{ background:#91c7ff; }
+.switch input:checked + .slider:before{ transform: translateX(24px); }
+
+.formBox{
+  margin-top:14px;
+  padding:12px;
+  border-radius:14px;
+  border:2px solid var(--border);
+  background: rgba(255,255,255,0.65);
+}
+
+.formGrid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:10px;
+  align-items:end;
+}
+.field label{ display:block; font-weight:900; margin:0 0 6px; }
+.field input{
+  width:100%;
+  padding:10px;
+  border-radius:12px;
+  border:2px solid var(--border);
+  background:#fff;
+  font-size:16px;
+}
+
+.formBtn{
+  height:52px;
+  background: var(--btn2);
+}
+
+.eqWide{
+  border: 1px solid #003d5c;
+  border-radius: 20px;
+  height: 56px;
+  font-size: 18px;
+  font-weight: 900;
+  cursor: pointer;
+  background: var(--eq);
+  grid-column: span 2;
+  transition: background-color 0.3s, transform 0.2s;
+}
+.eqWide:hover{ background-color:#2aa9e8; transform: scale(1.02); }
+.eqWide:active{ transform: scale(0.98); }
+
+.list{
+  margin-top:10px;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.item{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:10px;
+  border-radius:12px;
+  border:2px solid var(--border);
+  background:#fff;
+}
+.item button{
+  height:42px;
+  font-size:16px;
+  padding:0 14px;
+  background: rgb(255, 200, 200);
+}
+
+.hr{
+  border:none;
+  border-top:2px solid rgba(11,42,74,0.12);
+  margin:14px 0;
+}
+
+.final{
+  margin:0;
+  white-space:pre-wrap;
+  font-family: Consolas, monospace;
+  font-size:18px;
+  font-weight:900;
+  color:var(--text);
+  padding:10px;
+  border-radius:14px;
+  border:2px solid var(--border);
+  background:#fff;
+}
+
+.finalBtns{
+  margin-top:12px;
+  display:grid;
+  grid-template-columns: 1fr;
+  gap:10px;
+}
+
+/* Mobile */
+@media (max-width: 520px){
+  .logo{ width:48px; height:48px; }
+  .display{ height:64px; font-size:28px; }
+  button{ height:58px; font-size:18px; }
+  button.eq{ height: 124px; }
+  .formGrid{ grid-template-columns: 1fr; }
+  .eqWide{ grid-column: span 1; }
+}

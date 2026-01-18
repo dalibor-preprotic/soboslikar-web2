@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="hr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="author" content="Dalibor Preprotić">
+  <title>Soboslikar i parketar</title>
+
+  <!-- favicon -->
+  <link rel="icon" href="ikonica.ico" type="image/x-icon">
+  <link rel="icon" href="ikonica.png" type="image/png">
+
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- jsPDF (za export PDF-a) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <style>
+  @media print {
+    body { background: white !important; }
+    .header, #viewMenu, #viewCalc, .footer, .finalBtns { display:none !important; }
+    #viewFinal { display:block !important; border:none !important; box-shadow:none !important; }
+    #finalText { border:none !important; }
+  }
+</style>
+</head>
+
+<body>
+  <main class="app">
+    <!-- Header s ikonom: vidljiv na svakoj "stranici" -->
+    <header class="header">
+      <div class="brand">
+        <img class="logo" src="ikonica.png" alt="Ikona soboslikar" />
+        <div>
+          <div class="title">Soboslikar i parketar</div>
+          <div class="subtitle hidden">WEB programiranje</div>
+        </div>
+      </div>
+      <button id="homeBtn" class="topbtn">Početna</button>
+    </header>
+
+    <!-- 1) MENU -->
+    <section id="viewMenu" class="card">
+      <h2>Izbornik</h2>
+      <p class="muted">Odaberi izračun:</p>
+
+      <div class="menuGrid">
+        <button id="btnPainter" class="menuBtn">1. Izračun soboslikar</button>
+        <button id="btnBoth" class="menuBtn">2. Izračun soboslikar i parketar</button>
+      </div>
+
+      <div class="note muted hidden">
+        Tip: aplikacija radi i na mobitelu. Tipke su prilagođene dodiru.
+      </div>
+    </section>
+
+    <!-- 2) CALC VIEW -->
+    <section id="viewCalc" class="card hidden">
+      <div class="calcTop">
+        <div>
+          <h2 id="calcTitle">Izračun</h2>
+          <div id="prompt" class="prompt">
+            <div id="promptLine1"></div>
+            <div id="promptLine2" class="muted"></div>
+          </div>
+        </div>
+
+        <div class="modeBox">
+          <label class="switch">
+            <input id="modeToggle" type="checkbox" />
+            <span class="slider"></span>
+          </label>
+          <div class="modeText">
+            <div class="modeLabel">Klasični unos</div>
+            <div class="muted small">Forma + dodaj stavke</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP-BY-STEP display -->
+      <div id="calcStandard">
+          <input id="display" class="display" inputmode="decimal" autocomplete="off" placeholder="0" />
+
+          <!-- tipke za prekid unosa (umjesto 0) -->
+          <div class="stopRow">
+            <button id="stopRoomsBtn" class="stopBtn">Završi prostorije</button>
+            <button id="stopOpeningsBtn" class="stopBtn">Završi otvore</button>
+            <button id="stopNoParquetBtn" class="stopBtn">Završi bez parketa</button>
+          </div>
+          
+
+          <!-- numerička tipkovnica -->
+          <div class="pad" role="group" aria-label="Tipkovnica">
+            <button data-key="7">7</button>
+            <button data-key="8">8</button>
+            <button data-key="9">9</button>
+            <button data-action="clear" class="top">C</button>
+
+            <button data-key="4">4</button>
+            <button data-key="5">5</button>
+            <button data-key="6">6</button>
+            <button data-action="back" class="top">⌫</button>
+
+            <button data-key="1">1</button>
+            <button data-key="2">2</button>
+            <button data-key="3">3</button>
+            <button data-action="ok" class="eq">OK</button>
+
+            <button data-key="0" class="zero">0</button>
+            <button data-key=".">.</button>
+          </div>
+
+          <p class="hint muted">
+            Tipke: <b>Enter</b>=OK, <b>Esc</b>=C, <b>Backspace</b>=⌫
+          </p>
+        </div>
+
+      <!-- KLASIČNI UNOS (forma) -->
+      <section id="formBox" class="formBox hidden">
+        <h3>Klasični unos (brže)</h3>
+
+        <div class="formGrid">
+          <div class="field">
+            <label>Širina (m)</label>
+            <input id="fRoomW" type="text" placeholder="npr. 4" />
+          </div>
+          <div class="field">
+            <label>Dužina (m)</label>
+            <input id="fRoomL" type="text" placeholder="npr. 5" />
+          </div>
+          <div class="field">
+            <label>Visina (m)</label>
+            <input id="fRoomH" type="text" placeholder="npr. 2.6" />
+          </div>
+          <button id="addRoomBtn" class="formBtn">+ Dodaj prostoriju</button>
+        </div>
+
+        <div id="roomsList" class="list"></div>
+
+        <hr class="hr" />
+
+        <div class="formGrid">
+          <div class="field">
+            <label>Otvor širina (m)</label>
+            <input id="fOpenW" type="text" placeholder="npr. 0.9" />
+          </div>
+          <div class="field">
+            <label>Otvor visina (m)</label>
+            <input id="fOpenH" type="text" placeholder="npr. 2.0" />
+          </div>
+          <button id="addOpenBtn" class="formBtn">+ Dodaj otvor</button>
+        </div>
+
+        <div id="opensList" class="list"></div>
+
+        <div id="formParquet">
+          <hr class="hr" />
+
+          <div class="formGrid">
+            <div class="field">
+              <label>Bez parketa širina (m)</label>
+              <input id="fNoPW" type="text" placeholder="npr. 1" />
+            </div>
+            <div class="field">
+              <label>Bez parketa dužina (m)</label>
+              <input id="fNoPL" type="text" placeholder="npr. 1" />
+            </div>
+            <button id="addNoPBtn" class="formBtn">+ Dodaj područje</button>
+          </div>
+
+          <div id="nopList" class="list"></div>
+
+          <hr class="hr" />
+
+          <div class="formGrid">
+            <div class="field">
+              <label>Cijena parketar (€/m²)</label>
+              <input id="fPriceParquet" type="text" />
+            </div>
+          </div>
+        </div>
+
+        
+        <hr class="hr" />
+
+        <div class="formGrid">
+          <div class="field">
+            <label>Cijena soboslikar (€/m²)</label>
+            <input id="fPricePaint" type="text" />
+          </div>
+          <div class="field">
+            <label>Cijena parketar (€/m²)</label>
+            <input id="fPriceParquet" type="text" />
+          </div>
+          <button id="calcFormBtn" class="eqWide">Izračunaj</button>
+        </div>
+      </section>
+    </section>
+
+    <!-- 3) FINAL VIEW -->
+    <section id="viewFinal" class="card hidden">
+      <h2>Obračun</h2>
+
+      <pre id="finalText" class="final"></pre>
+
+      <div class="finalBtns">
+        <button id="pdfBtn" class="eqWide">Ispiši obračun</button>
+        <button id="restartBtn" class="menuBtn">Novi obračun</button>
+      </div>
+
+      <!-- koristi se za PDF / print sadržaj -->
+      <div id="pdfSource" class="hidden"></div>
+    </section>
+
+    <footer class="footer muted">© 2026 Dalibor Preprotić</footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
